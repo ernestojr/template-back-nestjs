@@ -57,7 +57,7 @@ describe('AuthService', () => {
       const email = 'test@test.com';
       const password = 'password123';
       const hashedPassword = 'hashed_password';
-      
+
       const mockUser = {
         id: 1,
         email,
@@ -109,7 +109,10 @@ describe('AuthService', () => {
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       // Act
-      const result = await service.validateUser('test@test.com', 'wrong_password');
+      const result = await service.validateUser(
+        'test@test.com',
+        'wrong_password',
+      );
 
       // Assert
       expect(result).toBeNull();

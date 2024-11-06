@@ -10,7 +10,7 @@ export class ProdUserSeeder {
 
     // Verificar si ya existe el usuario admin
     const existingAdmin = await userRepository.findOne({
-      where: { email: 'admin@tudominio.com' }
+      where: { email: 'admin@tudominio.com' },
     });
 
     if (existingAdmin) {
@@ -18,7 +18,10 @@ export class ProdUserSeeder {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(process.env.ADMIN_INITIAL_PASSWORD || 'admin123', 10);
+    const hashedPassword = await bcrypt.hash(
+      process.env.ADMIN_INITIAL_PASSWORD || 'admin123',
+      10,
+    );
 
     const adminUser = {
       fullname: 'Administrator',

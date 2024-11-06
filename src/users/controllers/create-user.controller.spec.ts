@@ -11,11 +11,15 @@ describe('CreateUserController', () => {
 
   // Definir los mocks de los guards
   const mockJwtAuthGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   const mockRolesGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   beforeEach(async () => {
@@ -60,19 +64,21 @@ describe('CreateUserController', () => {
       };
 
       const expectedResult = { id: 1, ...createUserDto };
-      
+
       // Mock del servicio
-      jest.spyOn(usersService, 'create').mockResolvedValue(expectedResult as any);
+      jest
+        .spyOn(usersService, 'create')
+        .mockResolvedValue(expectedResult as any);
 
       // Crear un mock del contexto de ejecución
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular la activación de los guards
@@ -94,11 +100,11 @@ describe('CreateUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       await mockJwtAuthGuard.canActivate(mockExecutionContext);

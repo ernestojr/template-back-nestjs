@@ -21,7 +21,7 @@ describe('AppController (e2e)', () => {
       .post('/auth/signin')
       .send({
         email: 'admin@example.com',
-        password: 'admin123'
+        password: 'admin123',
       });
 
     authToken = loginResponse.body.access_token;
@@ -35,7 +35,7 @@ describe('AppController (e2e)', () => {
         rut: '98765432-1',
         password: 'password123',
         role: 'user',
-        active: true
+        active: true,
       };
 
       return request(app.getHttpServer())
@@ -55,7 +55,7 @@ describe('AppController (e2e)', () => {
         .post('/auth/signin')
         .send({
           email: 'admin@example.com',
-          password: 'admin123'
+          password: 'admin123',
         })
         .expect(201)
         .expect((res) => {
@@ -73,7 +73,7 @@ describe('AppController (e2e)', () => {
       rut: '12345678-9',
       password: 'password123',
       role: 'user',
-      active: true
+      active: true,
     };
 
     let userId: number;
@@ -120,7 +120,7 @@ describe('AppController (e2e)', () => {
     it('/users/:id (PUT)', () => {
       const updateData = {
         fullname: 'Updated Test User',
-        active: false
+        active: false,
       };
 
       return request(app.getHttpServer())
@@ -152,9 +152,7 @@ describe('AppController (e2e)', () => {
 
     // Test de autorización
     it('should return 401 when no token is provided', () => {
-      return request(app.getHttpServer())
-        .get('/users')
-        .expect(401);
+      return request(app.getHttpServer()).get('/users').expect(401);
     });
 
     it('should return 401 when invalid token is provided', () => {

@@ -11,11 +11,15 @@ describe('UpdateUserController', () => {
 
   // Definir los mocks de los guards
   const mockJwtAuthGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   const mockRolesGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   beforeEach(async () => {
@@ -56,13 +60,18 @@ describe('UpdateUserController', () => {
         active: false,
       };
 
-      const updatedUser = [1, [{
-        id: userId,
-        ...updateUserDto,
-        email: 'test@test.com',
-        rut: '12345678-9',
-        role: 'user',
-      }]];
+      const updatedUser = [
+        1,
+        [
+          {
+            id: userId,
+            ...updateUserDto,
+            email: 'test@test.com',
+            rut: '12345678-9',
+            role: 'user',
+          },
+        ],
+      ];
 
       // Mock del servicio
       jest.spyOn(usersService, 'update').mockResolvedValue(updatedUser as any);
@@ -71,11 +80,11 @@ describe('UpdateUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular la activación de los guards

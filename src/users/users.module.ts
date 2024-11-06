@@ -15,9 +15,9 @@ import { User } from './entities/user.entity';
     FindAllUsersController,
     FindOneUserController,
     UpdateUserController,
-    DeleteUserController
+    DeleteUserController,
   ],
   providers: [UsersService],
-  exports: [UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}

@@ -11,11 +11,15 @@ describe('FindOneUserController', () => {
 
   // Definir los mocks de los guards
   const mockJwtAuthGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   const mockRolesGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   beforeEach(async () => {
@@ -67,11 +71,11 @@ describe('FindOneUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular la activación de los guards
@@ -93,11 +97,11 @@ describe('FindOneUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       await mockJwtAuthGuard.canActivate(mockExecutionContext);

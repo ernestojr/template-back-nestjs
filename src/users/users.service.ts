@@ -38,13 +38,16 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async update(id: number, updateUserDto: Partial<CreateUserDto>): Promise<User> {
+  async update(
+    id: number,
+    updateUserDto: Partial<CreateUserDto>,
+  ): Promise<User> {
     const user = await this.findOne(id);
-    
+
     if (updateUserDto.password) {
       updateUserDto.password = await this.hashPassword(updateUserDto.password);
     }
-    
+
     await this.usersRepository.update(id, updateUserDto);
     return this.findOne(id);
   }

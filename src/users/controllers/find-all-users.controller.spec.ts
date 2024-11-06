@@ -60,7 +60,7 @@ describe('FindAllUsersController', () => {
       ];
 
       jest.spyOn(usersService, 'findAll').mockResolvedValue(users as any);
-      
+
       // Simular que los guards son llamados
       mockJwtAuthGuard.canActivate.mockReturnValue(true);
       mockRolesGuard.canActivate.mockReturnValue(true);
@@ -79,11 +79,11 @@ describe('FindAllUsersController', () => {
       const mockContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Act

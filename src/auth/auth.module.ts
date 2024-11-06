@@ -22,12 +22,7 @@ import { RolesGuard } from './guards/roles.guard';
       inject: [ConfigService],
     }),
   ],
-  providers: [
-    AuthService, 
-    LocalStrategy, 
-    JwtStrategy,
-    RolesGuard
-  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy, RolesGuard],
   controllers: [AuthController],
   exports: [AuthService],
 })

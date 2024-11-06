@@ -10,7 +10,9 @@ describe('AuthController', () => {
 
   // Mock del LocalAuthGuard
   const mockLocalAuthGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   beforeEach(async () => {
@@ -59,7 +61,9 @@ describe('AuthController', () => {
         password: 'hashed_password',
       };
 
-      jest.spyOn(authService, 'signUp').mockResolvedValue(expectedResult as any);
+      jest
+        .spyOn(authService, 'signUp')
+        .mockResolvedValue(expectedResult as any);
 
       // Act
       const result = await controller.signUp(signUpDto);
@@ -97,10 +101,10 @@ describe('AuthController', () => {
       // Crear un mock del contexto de ejecución
       const mockExecutionContext = {
         switchToHttp: () => ({
-          getRequest: () => req
+          getRequest: () => req,
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular la activación del guard
@@ -124,18 +128,20 @@ describe('AuthController', () => {
               email: 'test@test.com',
               password: 'wrong_password',
             },
-          })
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular fallo en la autenticación
-      mockLocalAuthGuard.canActivate.mockRejectedValue(new Error('Invalid credentials'));
+      mockLocalAuthGuard.canActivate.mockRejectedValue(
+        new Error('Invalid credentials'),
+      );
 
       // Act & Assert
       await expect(
-        mockLocalAuthGuard.canActivate(mockExecutionContext)
+        mockLocalAuthGuard.canActivate(mockExecutionContext),
       ).rejects.toThrow('Invalid credentials');
     });
   });

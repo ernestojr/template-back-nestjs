@@ -20,7 +20,7 @@ const AppDataSource = new DataSource({
 const runSeeder = async () => {
   try {
     await AppDataSource.initialize();
-    
+
     const environment = process.env.NODE_ENV || 'development';
     console.log(`Running ${environment} seeds...`);
 

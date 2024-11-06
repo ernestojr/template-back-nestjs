@@ -13,7 +13,10 @@ export class RolesGuard extends JwtAuthGuard {
     await super.canActivate(context);
 
     // Obtenemos los roles requeridos del decorador
-    const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
+    const requiredRoles = this.reflector.get<string[]>(
+      'roles',
+      context.getHandler(),
+    );
     if (!requiredRoles) {
       return true; // Si no hay roles requeridos, permitimos el acceso
     }

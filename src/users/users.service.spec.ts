@@ -60,7 +60,9 @@ describe('UsersService', () => {
     it('should throw NotFoundException when user not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
 
-      await expect(service.findOne(1)).rejects.toThrow('Usuario con ID 1 no encontrado');
+      await expect(service.findOne(1)).rejects.toThrow(
+        'Usuario con ID 1 no encontrado',
+      );
     });
   });
 
@@ -74,12 +76,12 @@ describe('UsersService', () => {
       };
 
       const user = { id: 1, ...createUserDto, password: 'hashed_password123' };
-      
+
       jest.spyOn(repository, 'create').mockReturnValue(user as User);
       jest.spyOn(repository, 'save').mockResolvedValue(user as User);
 
       const result = await service.create(createUserDto);
-      
+
       expect(result).toBe(user);
       expect(repository.create).toHaveBeenCalledWith({
         ...createUserDto,

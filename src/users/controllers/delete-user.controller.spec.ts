@@ -11,11 +11,15 @@ describe('DeleteUserController', () => {
 
   // Definir los mocks de los guards
   const mockJwtAuthGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   const mockRolesGuard = {
-    canActivate: jest.fn().mockImplementation((context: ExecutionContext) => true),
+    canActivate: jest
+      .fn()
+      .mockImplementation((context: ExecutionContext) => true),
   };
 
   beforeEach(async () => {
@@ -51,7 +55,7 @@ describe('DeleteUserController', () => {
     it('should delete a user when authorized', async () => {
       // Arrange
       const userId = 1;
-      
+
       // Mock del servicio
       jest.spyOn(usersService, 'delete').mockResolvedValue(undefined);
 
@@ -59,11 +63,11 @@ describe('DeleteUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       // Simular la activación de los guards
@@ -84,11 +88,11 @@ describe('DeleteUserController', () => {
       const mockExecutionContext = {
         switchToHttp: () => ({
           getRequest: () => ({
-            user: { role: 'admin' }
-          })
+            user: { role: 'admin' },
+          }),
         }),
         getHandler: () => ({}),
-        getClass: () => ({})
+        getClass: () => ({}),
       } as ExecutionContext;
 
       await mockJwtAuthGuard.canActivate(mockExecutionContext);
