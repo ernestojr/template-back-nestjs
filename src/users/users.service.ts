@@ -42,7 +42,7 @@ export class UsersService {
     id: number,
     updateUserDto: Partial<CreateUserDto>,
   ): Promise<User> {
-    const user = await this.findOne(id);
+    await this.findOne(id);
 
     if (updateUserDto.password) {
       updateUserDto.password = await this.hashPassword(updateUserDto.password);
