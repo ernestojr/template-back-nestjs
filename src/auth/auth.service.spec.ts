@@ -64,13 +64,6 @@ describe('AuthService', () => {
         password: hashedPassword,
         fullname: 'Test User',
         role: 'user',
-        toJSON: () => ({
-          id: 1,
-          email,
-          password: hashedPassword,
-          fullname: 'Test User',
-          role: 'user',
-        }),
       };
 
       mockUsersService.findByEmail.mockResolvedValue(mockUser);
@@ -142,12 +135,6 @@ describe('AuthService', () => {
       // Assert
       expect(result).toEqual({
         access_token: mockToken,
-        user: {
-          id: mockUser.id,
-          email: mockUser.email,
-          fullname: mockUser.fullname,
-          role: mockUser.role,
-        },
       });
       expect(mockJwtService.sign).toHaveBeenCalledWith({
         email: mockUser.email,
