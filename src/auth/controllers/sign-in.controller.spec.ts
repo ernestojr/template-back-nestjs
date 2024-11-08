@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { SignInController } from './sign-in.controller';
+import { AuthService } from '../auth.service';
+import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { ExecutionContext } from '@nestjs/common';
 
-describe('AuthController', () => {
-  let controller: AuthController;
+describe('SignInController', () => {
+  let controller: SignInController;
   let authService: AuthService;
 
   // Mock del LocalAuthGuard
@@ -20,12 +20,11 @@ describe('AuthController', () => {
     jest.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+      controllers: [SignInController],
       providers: [
         {
           provide: AuthService,
           useValue: {
-            signUp: jest.fn(),
             signIn: jest.fn(),
           },
         },
@@ -35,7 +34,7 @@ describe('AuthController', () => {
       .useValue(mockLocalAuthGuard)
       .compile();
 
-    controller = module.get<AuthController>(AuthController);
+    controller = module.get<SignInController>(SignInController);
     authService = module.get<AuthService>(AuthService);
   });
 
@@ -43,38 +42,7 @@ describe('AuthController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('signUp', () => {
-    it('should create a new user', async () => {
-      // Arrange
-      const signUpDto = {
-        fullname: 'Test User',
-        email: 'test@test.com',
-        rut: '12345678-9',
-        password: 'password123',
-        role: 'user',
-        active: true,
-      };
-
-      const expectedResult = {
-        id: 1,
-        ...signUpDto,
-        password: 'hashed_password',
-      };
-
-      jest
-        .spyOn(authService, 'signUp')
-        .mockResolvedValue(expectedResult as any);
-
-      // Act
-      const result = await controller.signUp(signUpDto);
-
-      // Assert
-      expect(result).toEqual(expectedResult);
-      expect(authService.signUp).toHaveBeenCalledWith(signUpDto);
-    });
-  });
-
-  describe('signIn', () => {
+  describe('Sign In', () => {
     it('should authenticate user and return token', async () => {
       // Arrange
       const user = {
@@ -111,7 +79,7 @@ describe('AuthController', () => {
       await mockLocalAuthGuard.canActivate(mockExecutionContext);
 
       // Act
-      const result = await controller.signIn(req);
+      const result = await controller.run(req);
 
       // Assert
       expect(result).toEqual(expectedResult);
