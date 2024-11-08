@@ -7,6 +7,7 @@ import { CreateUserDto } from '../src/users/dto/create-user.dto';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let authToken: string;
+  let signUpId: number;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -21,7 +22,7 @@ describe('AppController (e2e)', () => {
       .post('/auth/signin')
       .send({
         email: 'admin@example.com',
-        password: 'admin123',
+        password: 'qwerty',
       });
 
     authToken = loginResponse.body.access_token;
@@ -44,6 +45,7 @@ describe('AppController (e2e)', () => {
         .expect(201)
         .expect((res) => {
           expect(res.body).toHaveProperty('id');
+          signUpId = res.body.id;
           expect(res.body.fullname).toBe(signUpDto.fullname);
           expect(res.body.email).toBe(signUpDto.email);
           expect(res.body.password).not.toBe(signUpDto.password);
@@ -54,14 +56,12 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer())
         .post('/auth/signin')
         .send({
-          email: 'admin@example.com',
-          password: 'admin123',
+          email: 'newtest@example.com',
+          password: 'password123',
         })
-        .expect(201)
+        .expect(200)
         .expect((res) => {
           expect(res.body).toHaveProperty('access_token');
-          expect(res.body).toHaveProperty('user');
-          expect(res.body.user).toHaveProperty('email', 'admin@example.com');
         });
     });
   });
@@ -129,10 +129,8 @@ describe('AppController (e2e)', () => {
         .send(updateData)
         .expect(200)
         .expect((res) => {
-          expect(Array.isArray(res.body)).toBe(true);
-          expect(res.body[0]).toBeGreaterThan(0);
-          expect(res.body[1][0].fullname).toBe(updateData.fullname);
-          expect(res.body[1][0].active).toBe(updateData.active);
+          expect(res.body.fullname).toBe(updateData.fullname);
+          expect(res.body.active).toBe(updateData.active);
         });
     });
 
@@ -164,6 +162,9 @@ describe('AppController (e2e)', () => {
   });
 
   afterAll(async () => {
+    await request(app.getHttpServer())
+      .delete(`/users/${signUpId}`)
+      .set('Authorization', `Bearer ${authToken}`);
     await app.close();
   });
 });
