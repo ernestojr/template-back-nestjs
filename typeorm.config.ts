@@ -12,4 +12,9 @@ export default new DataSource({
     database: process.env.DB_DATABASE,
     entities: ['src/**/*.entity.ts', 'src/**/**/*.entity.ts'],
     migrations: ['src/database/migrations/*.ts'],
+    ...(process.env.NODE_ENV !== 'local') && {
+        ssl: {
+          rejectUnauthorized: false // Si no tienes un certificado SSL verificado, puedes deshabilitar la verificación.
+        }
+    }
 });

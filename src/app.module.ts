@@ -21,6 +21,11 @@ import { User } from './users/entities/user.entity';
         database: configService.get('DB_DATABASE'),
         entities: [User],
         synchronize: process.env.NODE_ENV !== 'production',
+        ...(process.env.NODE_ENV !== 'local') && {
+          ssl: {
+            rejectUnauthorized: false // Si no tienes un certificado SSL verificado, puedes deshabilitar la verificación.
+          }
+        }
       }),
       inject: [ConfigService],
     }),
