@@ -1,18 +1,18 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { UsersService } from '../users.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/decorators/roles.decorator';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserService } from '../services/create-user.service';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CreateUserController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly service: CreateUserService) {}
 
   @Post()
   @Roles('admin')
-  run(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async handle(@Body() dto: CreateUserDto) {
+    return await this.service.handle(dto);
   }
 }

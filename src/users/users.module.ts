@@ -1,23 +1,44 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './entities/user.entity';
 import { CreateUserController } from './controllers/create-user.controller';
-import { FindAllUsersController } from './controllers/find-all-users.controller';
-import { FindOneUserController } from './controllers/find-one-user.controller';
+import { FindUsersController } from './controllers/find-users.controller';
+import { FindUserController } from './controllers/find-user.controller';
 import { UpdateUserController } from './controllers/update-user.controller';
 import { DeleteUserController } from './controllers/delete-user.controller';
-import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
+import { CreateUserService } from './services/create-user.service';
+import { FindUsersService } from './services/find-users.service';
+import { FindUserService } from './services/find-user.service';
+import { UpdateUserService } from './services/update-user.service';
+import { DeleteUserService } from './services/delete-user.service';
+import { ValidateUserService } from './services/validate-user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity]),
+  ],
   controllers: [
     CreateUserController,
-    FindAllUsersController,
-    FindOneUserController,
+    FindUsersController,
+    FindUserController,
     UpdateUserController,
     DeleteUserController,
   ],
-  providers: [UsersService],
-  exports: [UsersService],
+  providers: [
+    CreateUserService,
+    FindUsersService,
+    FindUserService,
+    UpdateUserService,
+    DeleteUserService,
+    ValidateUserService,
+  ],
+  exports: [
+    CreateUserService,
+    FindUsersService,
+    FindUserService,
+    UpdateUserService,
+    DeleteUserService,
+    ValidateUserService,
+  ],
 })
 export class UsersModule {}

@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { SignInController } from './controllers/sign-in.controller';
-import { SignUpController } from './controllers/sign-up.controller';
-import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { LocalStrategy } from './strategies/local.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesGuard } from './guards/roles.guard';
+import { UsersModule } from '../users/users.module';
+import { LocalStrategy } from './strategies/local.strategy';
+import { SignInController } from './controllers/sign-in.controller';
+import { SignUpController } from './controllers/sign-up.controller';
+import { SignInService } from './services/sign-in.service';
+import { SignUpService } from './services/sign-up.service';
 
 @Module({
   imports: [
-    UsersModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -22,9 +20,16 @@ import { RolesGuard } from './guards/roles.guard';
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RolesGuard],
-  controllers: [SignInController, SignUpController],
-  exports: [AuthService],
+  providers: [
+    LocalStrategy,
+    SignInService,
+    SignUpService
+  ],
+  controllers: [
+    SignInController,
+    SignUpController
+  ]
 })
 export class AuthModule {}

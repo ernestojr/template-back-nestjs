@@ -1,15 +1,15 @@
 import { DataSource } from 'typeorm';
-import { User } from '../../../users/entities/user.entity';
+import { UserEntity } from '../../../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
 export class DevUserSeeder {
   constructor(private dataSource: DataSource) {}
 
   async run(): Promise<void> {
-    const userRepository = this.dataSource.getRepository(User);
+    const repository = this.dataSource.getRepository(UserEntity);
 
     // Verificar si ya existen usuarios
-    const existingUsers = await userRepository.count();
+    const existingUsers = await repository.count();
     if (existingUsers > 0) {
       console.log('Development users already seeded');
       return;
@@ -19,32 +19,44 @@ export class DevUserSeeder {
 
     const users = [
       {
-        fullname: 'Admin User',
-        email: 'admin@example.com',
-        rut: '11111111-1',
+        id: '550e8400-e29b-41d4-a716-446655440000',
+        fullname: 'System',
+        email: 'system@example.com',
+        dni: '00000000-0',
         password: hashedPassword,
         role: 'admin',
         active: true,
       },
       {
+        id: 'b47ac8b0-67d1-4e5d-8b47-c863aecf9e1a',
+        fullname: 'Admin User',
+        email: 'admin@example.com',
+        dni: '11111111-1',
+        password: hashedPassword,
+        role: 'admin',
+        active: true,
+      },
+      {
+        id: 'd5f39468-2e9f-4f45-b427-653fdf2b0ccd',
         fullname: 'Test Operator',
         email: 'operator@example.com',
-        rut: '22222222-2',
+        dni: '22222222-2',
         password: hashedPassword,
         role: 'operator',
         active: true,
       },
       {
+        id: '7c9e6679-7425-40de-944b-e07fc1f90ae7',
         fullname: 'Test User',
         email: 'user@example.com',
-        rut: '33333333-3',
+        dni: '33333333-3',
         password: hashedPassword,
         role: 'user',
         active: true,
       },
     ];
 
-    await userRepository.save(users);
+    await repository.save(users);
     console.log('Development users seeded');
   }
 }

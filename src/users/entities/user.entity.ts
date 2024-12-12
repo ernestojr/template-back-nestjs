@@ -1,15 +1,17 @@
 import {
   Entity,
+  PrimaryColumn,
+  Generated,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class UserEntity {
+  @PrimaryColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column()
   fullname: string;
@@ -18,7 +20,7 @@ export class User {
   email: string;
 
   @Column({ unique: true })
-  rut: string;
+  dni: string;
 
   @Column()
   password: string;

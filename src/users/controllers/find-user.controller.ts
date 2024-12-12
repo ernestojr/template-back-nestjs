@@ -1,19 +1,19 @@
-import { Controller, Delete, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
-import { DeleteUserService } from '../services/delete-user.service';
-import { DeleteUserDto } from '../dtos/delete-user.dto';
+import { FindUserService } from '../services/find-user.service';
+import { FindUserDto } from '../dtos/find-user.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
-export class DeleteUserController {
-  constructor(private readonly service: DeleteUserService) {}
+export class FindUserController {
+  constructor(private readonly service: FindUserService) {}
 
-  @Delete(':id')
+  @Get(':id')
   @Roles('admin')
   async handle(@Param('id') id: string) {
-    const dto: DeleteUserDto = { id };
+    const dto: FindUserDto = { id };
     return await this.service.handle(dto);
   }
 }
