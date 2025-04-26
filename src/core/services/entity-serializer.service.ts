@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { EntityPaginationDto } from '../dtos/responses/entity-pagination.dto';
+import { EntityPaginationResponse } from '../interfaces/entity-pagination.interface';
 
 @Injectable()
 export class EntitySerializerService {
@@ -25,7 +25,7 @@ export class EntitySerializerService {
     /**
      * Serializa una respuesta paginada
      */
-    pagination<T, V>(data: EntityPaginationDto<T>, responseType: ClassConstructor<V>): EntityPaginationDto<V> {
+    pagination<T, V>(data: EntityPaginationResponse<T>, responseType: ClassConstructor<V>): EntityPaginationResponse<V> {
         return {
             records: this.collection(data.records, responseType),
             meta: data.meta

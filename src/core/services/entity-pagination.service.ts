@@ -1,6 +1,6 @@
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { EntityPaginationParams } from './params/entity-pagination.params';
-import { EntityPaginationDto } from '../dtos/responses/entity-pagination.dto';
+import { EntityPaginationResponse } from '../interfaces/entity-pagination.interface';
 
 export abstract class EntityPaginationService<T> {
     constructor(
@@ -8,7 +8,7 @@ export abstract class EntityPaginationService<T> {
         protected readonly alias: string
     ) {}
 
-    async paginate(params: EntityPaginationParams): Promise<EntityPaginationDto<T>> {
+    async paginate(params: EntityPaginationParams): Promise<EntityPaginationResponse<T>> {
         const { page = 1, limit = 10, sortBy, sortOrder = 'DESC' } = params;
         const skip = (page - 1) * limit;
 
@@ -25,7 +25,7 @@ export abstract class EntityPaginationService<T> {
             .take(limit)
             .getManyAndCount();
 
-        const response: EntityPaginationDto<T> = {
+        const response: EntityPaginationResponse<T> = {
             records,
             meta: {
                 total,
