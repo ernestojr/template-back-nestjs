@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { HttpResponseInterceptor } from './common/interceptors/http-response.interceptor';
+import { HttpExceptionFilter } from './core/filters/http-exception.filter';
+import { HttpResponseInterceptor } from './core/interceptors/http-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,6 +10,12 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   // Registrar el interceptor globalmente:
   app.useGlobalInterceptors(new HttpResponseInterceptor());
+  // Habilitar la validación global 'class-validator' & 'class-transformer'
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,          // Elimina propiedades no decoradas
+    forbidNonWhitelisted: true, // Lanza error si hay props extras
+    transform: true,           // Transforma los tipos automáticamente
+  }));
   // Habilitar CORS con configuración personalizada
   app.enableCors({
     origin: '*',

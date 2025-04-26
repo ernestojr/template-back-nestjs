@@ -9,13 +9,17 @@ const runSeeder = async () => {
 
     if (environment === 'production') {
       // Importar y ejecutar seeders de producción
-      const { ProdUserSeeder } = await import('./seeds/production/user.seeder');
-      await new ProdUserSeeder(DataSource).run();
+      const { UserSeeder } = await import('./seeds/production/user.seeder');
+      await new UserSeeder(DataSource).run();
     } else {
       // Importar y ejecutar seeders de desarrollo / local
-      const { DevUserSeeder } = await import('./seeds/development/user.seeder');
-      await new DevUserSeeder(DataSource).run();
+      const { UserSeeder } = await import('./seeds/development/user.seeder');
+      await new UserSeeder(DataSource).run();
     }
+
+    // Aqui van las semillas (seeder) que no dependen del entorno de ejecución
+    // const { RobotSeeder } = await import('./seeds/common/Robot.seeder'); // TODO: Implementar
+    // await new RobotSeeder(DataSource).run();
 
     console.log('Seeds executed successfully');
     process.exit(0);

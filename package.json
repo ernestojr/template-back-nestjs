@@ -1,6 +1,6 @@
 {
   "name": "template-backend-nestjs",
-  "version": "0.0.1",
+  "version": "1.2.0",
   "description": "",
   "author": "",
   "private": true,
@@ -41,6 +41,7 @@
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.0",
+    "rut.js": "^2.1.0",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20"
   },

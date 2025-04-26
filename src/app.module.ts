@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CommonModule } from './common/common.module';
+import { CoreModule } from './core/core.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { UserEntity } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -14,7 +13,7 @@ import { UserEntity } from './users/entities/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [
         ConfigModule,
-        CommonModule,
+        CoreModule,
       ],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -23,8 +22,9 @@ import { UserEntity } from './users/entities/user.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [UserEntity],
-        synchronize: process.env.NODE_ENV !== 'production',
+        autoLoadEntities: true,  // Carga automática de entidades
+        logging: Boolean(configService.get('DB_LOGGING')),
+        // synchronize: process.env.NODE_ENV !== 'production',
         ...(process.env.NODE_ENV !== 'local') && {
           ssl: {
             rejectUnauthorized: false // Si no tienes un certificado SSL verificado, puedes deshabilitar la verificación.
@@ -34,7 +34,7 @@ import { UserEntity } from './users/entities/user.entity';
       inject: [ConfigService],
     }),
     UsersModule,
-    AuthModule,
+    AuthModule
   ],
 })
 export class AppModule {}

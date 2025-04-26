@@ -1,20 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../entities/user.entity';
-import { ValidateUserDto } from '../dtos/validate-user.dto';
-import * as bcrypt from 'bcrypt';
-
+import { Injectable } from '@nestjs/common';
+import { UserQueryService } from './user-query.service';
+import { ValidateUserParams } from './params/validate-user.params';
+import { comparePassword } from '../../core/helpers/password.helper';
 @Injectable()
 export class ValidateUserService {
     constructor(
-        @InjectRepository(UserEntity)
-        private repository: Repository<UserEntity>,
+        private readonly userService: UserQueryService,
     ) {}
 
-    async handle(dto: ValidateUserDto): Promise<any> {
-        const user = await this.repository.findOne({ where: { email: dto.email } });
-        if (user && (await bcrypt.compare(dto.password, user.password))) {
+    async handle(params: ValidateUserParams): Promise<any> {
+        const { email, password } = params;
+        const user = await this.userService.findOneBy({ email });
+        const isPasswordValid = await comparePassword(
+            password,
+            user.password
+        );
+        if (user && isPasswordValid) {
             const { password: _, ...result } = user;
             return result;
         }

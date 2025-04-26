@@ -1,9 +1,9 @@
-import { Controller, Delete, Param, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles } from '../../common/decorators/roles.decorator';
+import { Controller, Delete, Param, UseGuards, ParseUUIDPipe } from '@nestjs/common';
+import { JwtAuthGuard } from '../../core/guards/jwt-auth.guard';
+import { RolesGuard } from '../../core/guards/roles.guard';
+import { Roles } from '../../core/decorators/roles.decorator';
 import { DeleteUserService } from '../services/delete-user.service';
-import { DeleteUserDto } from '../dtos/delete-user.dto';
+import { DeleteUserParams } from '../services/params/delete-user.params';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -12,8 +12,8 @@ export class DeleteUserController {
 
   @Delete(':id')
   @Roles('admin')
-  async handle(@Param('id') id: string) {
-    const dto: DeleteUserDto = { id };
-    return await this.service.handle(dto);
+  async handle(@Param('id', new ParseUUIDPipe()) id: string) {
+    const params: DeleteUserParams = { id };
+    return await this.service.handle(params);
   }
 }

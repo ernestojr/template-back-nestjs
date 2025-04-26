@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SignUpDto } from '../dtos/sign-up.dto';
+import { SignUpParams } from '../services/params/sign-up.params';
 import { CreateUserService } from '../../users/services/create-user.service';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class SignUpService {
         private readonly createUserService: CreateUserService,
     ) {}
 
-    async handle(dto: SignUpDto): Promise<any> {
-        return this.createUserService.handle(dto);
+    async handle(params: SignUpParams): Promise<any> {
+        return this.createUserService.handle(params);
     }
 }

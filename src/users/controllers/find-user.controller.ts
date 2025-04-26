@@ -1,19 +1,27 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles } from '../../common/decorators/roles.decorator';
-import { FindUserService } from '../services/find-user.service';
-import { FindUserDto } from '../dtos/find-user.dto';
+import { Controller, UseGuards, Get, Param, ParseUUIDPipe, NotFoundException } from '@nestjs/common';
+import { JwtAuthGuard } from '../../core/guards/jwt-auth.guard';
+import { RolesGuard } from '../../core/guards/roles.guard';
+import { Roles } from '../../core/decorators/roles.decorator';
+import { EntitySerializerService } from '../../core/services/entity-serializer.service';
+import { UserQueryService } from '../services/user-query.service';
+import { UserDto } from '../dtos/responses/user.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class FindUserController {
-  constructor(private readonly service: FindUserService) {}
+  constructor(
+    private readonly service: UserQueryService,
+    private serializer: EntitySerializerService
+  ) {}
 
   @Get(':id')
   @Roles('admin')
-  async handle(@Param('id') id: string) {
-    const dto: FindUserDto = { id };
-    return await this.service.handle(dto);
+  async handle(@Param('id', new ParseUUIDPipe()) id: string) {
+    const user = await this.service.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+    return this.serializer.single(user, UserDto);
   }
 }
+

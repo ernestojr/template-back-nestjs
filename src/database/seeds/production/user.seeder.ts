@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
-import { UserEntity } from '../../../users/entities/user.entity';
+import { UserEntity } from '../../../core/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
-export class ProdUserSeeder {
+export class UserSeeder {
   constructor(private dataSource: DataSource) {}
 
   async run(): Promise<void> {

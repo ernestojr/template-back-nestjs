@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { SignInDto } from '../dtos/sign-in.dto';
+import { SignInParams } from '../services/params/sign-in.params';
 
 @Injectable()
 export class SignInService {
@@ -8,11 +8,11 @@ export class SignInService {
         private readonly service: JwtService,
     ) {}
 
-    async handle(dto: SignInDto): Promise<string> {
+    async handle(params: SignInParams): Promise<string> {
         const payload = {
-            email: dto.email,
-            sub: dto.sub,
-            role: dto.role
+            email: params.email,
+            sub: params.sub,
+            role: params.role
         };
         return this.service.sign(payload)
     }
