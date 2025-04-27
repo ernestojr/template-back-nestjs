@@ -1,1 +1,0 @@
-# Aqui van las semillas (seeder) que no dependen del entorno de ejecución

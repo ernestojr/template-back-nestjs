@@ -22,7 +22,10 @@
     "migration:generate": "npm run typeorm migration:generate ./src/database/migrations/$npm_config_name -- -d typeorm.config.ts",
     "migration:run": "npm run typeorm migration:run -- -d typeorm.config.ts",
     "migration:revert": "npm run typeorm migration:revert -- -d typeorm.config.ts",
-    "seed:run": "ts-node src/database/seeder.ts"
+    "seed:run": "NODE_ENV=local ts-node src/database/seeders/run.seeder.ts",
+    "seed:run:dev": "NODE_ENV=development ts-node src/database/seeders/run.seeder.ts",
+    "seed:run:stg": "NODE_ENV=staging ts-node src/database/seeders/run.seeder.ts",
+    "seed:run:prod": "NODE_ENV=production ts-node src/database/seeders/run.seeder.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
