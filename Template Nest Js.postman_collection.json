@@ -137,6 +137,28 @@
 				"description": "Generated from cURL: curl -X GET http://localhost:3000/users \\\n-H \"Authorization: Bearer TU_TOKEN_JWT\""
 			},
 			"response": []
+		},
+		{
+			"name": "Health",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
