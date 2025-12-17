@@ -5,8 +5,8 @@ import { check, sleep } from 'k6';
 // Define las etapas de la prueba de carga (rampa, sostenimiento, bajada)
 export const options = {
   stages: [
-    { duration: '30s', target: 100 },  // 1. Rampa: de 0 a 50 usuarios en 30s
-    { duration: '2m', target: 100 },   // 2. Sostener: 50 usuarios por 1 minuto
+    { duration: '30s', target: 50 },  // 1. Rampa: de 0 a 50 usuarios en 30s
+    { duration: '1m', target: 50 },   // 2. Sostener: 50 usuarios por 1 minuto
     { duration: '10s', target: 0 },   // 3. Bajada: de 50 a 0 usuarios en 10s
   ],
   thresholds: {
